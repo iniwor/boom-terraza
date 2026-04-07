@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Boom Terraza — Restaurante Bar | Coacalco</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:   #0B0B0B;
+      --dark:    #141414;
+      --card:    #1A1A1A;
+      --border:  #2A2A2A;
+      --amber:   #E8A030;
+      --amber-d: #C4831A;
+      --cream:   #F0E8D8;
+      --muted:   #888880;
+      --text:    #D8D0C0;
+      --serif:   'Barlow Condensed', sans-serif;
+      --sans:    'Barlow', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* CURSOR */
+    .cursor {
+      position: fixed; top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform .15s ease, opacity .3s;
+      font-size: 22px;
+      line-height: 1;
+      filter: drop-shadow(0 0 4px rgba(232,160,48,0.6));
+      user-select: none;
+    }
+    .cursor.hover {
+      transform: translate(-50%, -50%) scale(1.4) rotate(-15deg);
+      filter: drop-shadow(0 0 8px rgba(232,160,48,0.9));
+    }
+
+    /* BACK TO TOP */
+    .back-top {
+      position: fixed; bottom: 32px; right: 32px;
+      z-index: 500;
+      width: 44px; height: 44px;
+      background: var(--amber);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      color: var(--black);
+      text-decoration: none;
+      opacity: 0; pointer-events: none;
+      transition: opacity .4s ease, background .3s, transform .3s;
+      transform: translateY(12px);
+    }
+    .back-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    .back-top:hover { background: var(--amber-d); }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 52px;
+      background: linear-gradient(to bottom, rgba(11,11,11,0.95) 0%, transparent 100%);
+    }
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--amber);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+      transition: color .3s;
+    }
+    .nav-links a:hover { color: var(--amber); }
+    .nav-wa {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--amber);
+      color: var(--black) !important;
+      padding: 9px 20px;
+      font-weight: 600 !important;
+      transition: background .3s !important;
+    }
+    .nav-wa:hover { background: var(--amber-d) !important; color: var(--black) !important; }
+
+    /* REVEAL */
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: 100vh; min-height: 600px;
+      display: flex; flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+    }
+    .hero-img {
+      position: absolute; inset: 0;
+      background: var(--dark);
+      overflow: hidden;
+    }
+    .hero-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0.55;
+      transition: transform 8s ease;
+    }
+    .hero:hover .hero-img img { transform: scale(1.04); }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top,
+        rgba(11,11,11,0.95) 0%,
+        rgba(11,11,11,0.4) 50%,
+        rgba(11,11,11,0.15) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 52px 64px;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--amber);
+      border: 1px solid var(--amber);
+      padding: 5px 14px;
+      margin-bottom: 24px;
+    }
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(64px, 11vw, 148px);
+      font-weight: 800;
+      line-height: 0.9;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: var(--cream);
+      margin-bottom: 24px;
+    }
+    .hero-title span { color: var(--amber); }
+    .hero-sub {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--text);
+      max-width: 480px;
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+    .hero-actions { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--amber);
+      color: var(--black);
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 16px 32px;
+      transition: background .3s, gap .3s;
+    }
+    .btn-primary:hover { background: var(--amber-d); gap: 16px; }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 10px;
+      border: 1px solid rgba(216,208,192,0.3);
+      color: var(--text);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 16px 32px;
+      transition: border-color .3s, color .3s;
+    }
+    .btn-outline:hover { border-color: var(--amber); color: var(--amber); }
+
+    .hero-badges {
+      position: absolute; right: 52px; bottom: 64px; z-index: 2;
+      display: flex; flex-direction: column; gap: 12px; align-items: flex-end;
+    }
+    .badge {
+      background: rgba(232,160,48,0.12);
+      border: 1px solid rgba(232,160,48,0.25);
+      padding: 8px 16px;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--amber);
+      white-space: nowrap;
+    }
+
+    /* ── INFO STRIP ── */
+    .info-strip {
+      background: var(--amber);
+      display: flex; flex-wrap: wrap;
+    }
+    .info-item {
+      flex: 1; min-width: 200px;
+      padding: 20px 32px;
+      border-right: 1px solid rgba(11,11,11,0.2);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .info-item:last-child { border-right: none; }
+    .info-icon { font-size: 1.1rem; }
+    .info-text { }
+    .info-label {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(11,11,11,0.6);
+      display: block;
+    }
+    .info-val {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--black);
+      line-height: 1.3;
+    }
+
+    /* ── SECTION BASE ── */
+    section { padding: 96px 52px; }
+    .s-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 20px;
+      display: block;
+    }
+    .s-title {
+      font-family: var(--serif);
+      font-size: clamp(40px, 5.5vw, 72px);
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--cream);
+      line-height: 0.95;
+      letter-spacing: -0.01em;
+    }
+    .s-title em { color: var(--amber); font-style: italic; font-weight: 400; }
+
+    /* ── NOSOTROS ── */
+    .nosotros-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+      margin-top: 60px;
+    }
+    .nosotros-img {
+      position: relative;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+    }
+    .nosotros-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform .6s ease;
+    }
+    .nosotros-img:hover img { transform: scale(1.05); }
+    .nosotros-img::after {
+      content: '';
+      position: absolute; inset: 0;
+      border: 1px solid rgba(232,160,48,0.2);
+      pointer-events: none;
+    }
+    .nosotros-body { }
+    .nosotros-text {
+      font-size: 1.05rem;
+      color: var(--text);
+      line-height: 1.85;
+      margin-bottom: 40px;
+    }
+    .pillars {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+    }
+    .pillar {
+      background: var(--dark);
+      padding: 24px 20px;
+    }
+    .pillar-icon { font-size: 1.4rem; margin-bottom: 8px; display: block; }
+    .pillar-title {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--cream);
+      margin-bottom: 4px;
+    }
+    .pillar-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── MENÚ ── */
+    .menu-section { background: var(--dark); }
+    .menu-tabs {
+      display: flex; gap: 0;
+      margin-top: 48px; margin-bottom: 48px;
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+    }
+    .tab-btn {
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: none;
+      border: none;
+      padding: 14px 28px;
+      cursor: none;
+      position: relative;
+      white-space: nowrap;
+      transition: color .3s;
+    }
+    .tab-btn::after {
+      content: '';
+      position: absolute; bottom: -1px; left: 0;
+      width: 0; height: 2px;
+      background: var(--amber);
+      transition: width .3s;
+    }
+    .tab-btn.active { color: var(--amber); }
+    .tab-btn.active::after { width: 100%; }
+    .tab-btn:hover { color: var(--cream); }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1px;
+      background: var(--border);
+    }
+    .menu-item {
+      background: var(--card);
+      padding: 24px 28px;
+      transition: background .3s;
+    }
+    .menu-item:hover { background: #202020; }
+    .menu-item-name {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--cream);
+      margin-bottom: 6px;
+      letter-spacing: 0.04em;
+    }
+    .menu-item-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+    .menu-item-price {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--amber);
+    }
+
+    .menu-pdf-links {
+      margin-top: 48px;
+      display: flex; gap: 16px; flex-wrap: wrap; align-items: center;
+    }
+    .pdf-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid var(--border);
+      color: var(--text);
+      text-decoration: none;
+      padding: 12px 24px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: border-color .3s, color .3s;
+    }
+    .pdf-link:hover { border-color: var(--amber); color: var(--amber); }
+    .pdf-icon { font-size: 1rem; }
+
+    /* ── GALERÍA SLIDER ── */
+    .galeria-slider-wrap {
+      margin-top: 52px;
+      position: relative;
+      overflow: hidden;
+    }
+    .galeria-track {
+      display: flex;
+      transition: transform .55s cubic-bezier(.4,0,.2,1);
+      gap: 4px;
+    }
+    .galeria-slide {
+      flex: 0 0 calc(50% - 2px);
+      min-width: calc(50% - 2px);
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      position: relative;
+    }
+    .galeria-slide img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .5s ease, opacity .4s ease;
+      opacity: 0.82;
+    }
+    .galeria-slide:hover img { transform: scale(1.05); opacity: 1; }
+    .slider-controls {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 24px;
+    }
+    .slider-dots {
+      display: flex; gap: 8px;
+    }
+    .slider-dot {
+      width: 24px; height: 2px;
+      background: var(--border);
+      border: none; cursor: none;
+      transition: background .3s, width .3s;
+      padding: 0;
+    }
+    .slider-dot.active { background: var(--amber); width: 40px; }
+    .slider-arrows { display: flex; gap: 8px; }
+    .slider-arrow {
+      width: 44px; height: 44px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: none;
+      transition: background .3s, border-color .3s, color .3s;
+    }
+    .slider-arrow:hover { background: var(--amber); border-color: var(--amber); color: var(--black); }
+
+    /* ── CÓCTELES HIGHLIGHT ── */
+    .cocktails {
+      background: var(--dark);
+      position: relative;
+      overflow: hidden;
+    }
+    .cocktails::before {
+      content: 'BAR';
+      position: absolute;
+      font-family: var(--serif);
+      font-size: clamp(160px, 24vw, 320px);
+      font-weight: 800;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(232,160,48,0.06);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      letter-spacing: -0.02em;
+      pointer-events: none;
+      user-select: none;
+    }
+    .cocktails-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      margin-top: 52px;
+      position: relative; z-index: 1;
+    }
+    .cocktail-card {
+      background: var(--card);
+      padding: 28px 24px;
+      transition: background .3s;
+    }
+    .cocktail-card:hover { background: #1E1E1E; }
+    .cocktail-name {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--cream);
+      margin-bottom: 6px;
+    }
+    .cocktail-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.6; margin-bottom: 10px; }
+    .cocktail-price {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--amber);
+    }
+
+    /* ── EVENTOS ── */
+    .eventos-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: start;
+      margin-top: 60px;
+    }
+    .evento-card {
+      border-top: 1px solid var(--border);
+      padding: 28px 0;
+    }
+    .evento-card:last-child { border-bottom: 1px solid var(--border); }
+    .evento-card-title {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--cream);
+      margin-bottom: 8px;
+      letter-spacing: 0.03em;
+    }
+    .evento-card-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+    .evento-tag {
+      display: inline-block;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--amber);
+      border: 1px solid rgba(232,160,48,0.3);
+      padding: 3px 10px;
+      margin-bottom: 14px;
+    }
+    .eventos-img {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 3/4;
+    }
+    .eventos-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0.75;
+    }
+    .eventos-img-caption {
+      position: absolute; bottom: 24px; left: 24px;
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--cream);
+      line-height: 1;
+    }
+    .eventos-img-caption span { color: var(--amber); }
+
+    /* ── CTA BAND ── */
+    .cta-band {
+      background: var(--amber);
+      padding: 72px 52px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 32px;
+    }
+    .cta-band-text { }
+    .cta-band-title {
+      font-family: var(--serif);
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--black);
+      line-height: 0.95;
+      margin-bottom: 12px;
+    }
+    .cta-band-sub {
+      font-size: 1rem;
+      color: rgba(11,11,11,0.65);
+      font-weight: 400;
+    }
+    .btn-dark {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: var(--black);
+      color: var(--amber);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 18px 36px;
+      white-space: nowrap;
+      transition: background .3s;
+    }
+    .btn-dark:hover { background: #1A1A1A; }
+
+    /* ── HORARIOS / CONTACTO ── */
+    .contacto-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      margin-top: 56px;
+    }
+    .contacto-block {
+      background: var(--dark);
+      padding: 40px 36px;
+    }
+    .cb-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 20px;
+      display: block;
+    }
+    .cb-value {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--cream);
+      line-height: 1.5;
+    }
+    .cb-value a { color: inherit; text-decoration: none; border-bottom: 1px solid transparent; transition: border-color .3s; }
+    .cb-value a:hover { border-color: var(--amber); }
+    .horario-row { display: flex; justify-content: space-between; margin-bottom: 8px; align-items: baseline; }
+    .horario-day { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.08em; }
+    .horario-time {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--cream);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 36px 52px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--amber);
+    }
+    .footer-copy { font-size: 0.72rem; color: var(--muted); }
+    .footer-social { display: flex; gap: 20px; }
+    .footer-social a {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .3s;
+    }
+    .footer-social a:hover { color: var(--amber); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 18px 24px; }
+      .nav-links { display: none; }
+      section { padding: 64px 24px; }
+      .hero-content { padding: 0 24px 48px; }
+      .hero-badges { display: none; }
+      .info-strip { flex-direction: column; }
+      .info-item { border-right: none; border-bottom: 1px solid rgba(11,11,11,0.15); }
+      .nosotros-grid { grid-template-columns: 1fr; gap: 40px; }
+      .galeria-masonry { columns: 2; }
+      .cocktails-grid { grid-template-columns: 1fr 1fr; }
+      .eventos-wrap { grid-template-columns: 1fr; }
+      .contacto-grid { grid-template-columns: 1fr; }
+      .cta-band { padding: 52px 24px; }
+      footer { flex-direction: column; text-align: center; }
+    }
+    @media (max-width: 580px) {
+      .galeria-masonry { columns: 1; }
+      .menu-grid { grid-template-columns: 1fr; }
+      .cocktails-grid { grid-template-columns: 1fr; }
+      .pillars { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor">🍹</div>
+  <a href="#" class="back-top" id="backTop" title="Volver arriba">↑</a>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Boom Terraza</a>
+    <ul class="nav-links">
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#menu">Menú</a></li>
+      <li><a href="#galeria">Galería</a></li>
+      <li><a href="#bar">Bar</a></li>
+      <li><a href="#eventos">Eventos</a></li>
+      <li><a href="https://wa.me/5215648504384" target="_blank" class="nav-wa">Reservar ↗</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-img">
+      <img src="https://drive.google.com/thumbnail?id=1G71JsSoehlnLytfBJ3Qivobq0ZtXtP5H&sz=w1600" alt="Boom Terraza" loading="eager"/>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-tag reveal">Coacalco, Estado de México</div>
+      <h1 class="hero-title reveal" style="transition-delay:.1s">
+        El <span>spot</span><br>que buscabas
+      </h1>
+      <p class="hero-sub reveal" style="transition-delay:.2s">
+        Terraza al aire libre con cocina completa, mixología y ambiente. De día o de noche — aquí nos vemos.
+      </p>
+      <div class="hero-actions reveal" style="transition-delay:.3s">
+        <a href="https://wa.me/5215648504384" class="btn-primary" target="_blank">Reservar por WhatsApp →</a>
+        <a href="#menu" class="btn-outline">Ver menú</a>
+      </div>
+    </div>
+    <div class="hero-badges">
+      <div class="badge">Estacionamiento subterráneo</div>
+      <div class="badge">Elevador a la terraza</div>
+      <div class="badge">Eventos con DJ</div>
+    </div>
+  </div>
+
+  <!-- INFO STRIP -->
+  <div class="info-strip">
+    <div class="info-item">
+      <span class="info-icon">🕐</span>
+      <div class="info-text">
+        <span class="info-label">Horario L-J y Dom</span>
+        <span class="info-val">08:00 – 22:00 h</span>
+      </div>
+    </div>
+    <div class="info-item">
+      <span class="info-icon">🕐</span>
+      <div class="info-text">
+        <span class="info-label">Horario Vie – Sáb</span>
+        <span class="info-val">08:00 – 01:00 h</span>
+      </div>
+    </div>
+    <div class="info-item">
+      <span class="info-icon">📍</span>
+      <div class="info-text">
+        <span class="info-label">Ubicación</span>
+        <span class="info-val">Villa de las Flores, Coacalco</span>
+      </div>
+    </div>
+    <div class="info-item">
+      <span class="info-icon">📲</span>
+      <div class="info-text">
+        <span class="info-label">WhatsApp / Reservas</span>
+        <span class="info-val">56 4850 4384</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOSOTROS -->
+  <section id="nosotros">
+    <span class="s-label reveal">— Quiénes somos</span>
+    <h2 class="s-title reveal" style="transition-delay:.1s">
+      Una terraza que<br><em>no necesita explicarse,</em><br>solo mostrarse.
+    </h2>
+    <div class="nosotros-grid">
+      <div class="nosotros-img reveal">
+        <img src="https://drive.google.com/thumbnail?id=1aW6_CKvjS1fADNqq3E1m393P9R4Y8i8S&sz=w900" alt="Boom Terraza ambiente"/>
+      </div>
+      <div class="nosotros-body reveal" style="transition-delay:.15s">
+        <p class="nosotros-text">
+          Somos el plan que todos proponen y nadie olvida. Una terraza con cocina completa donde el desayuno del domingo se convierte en brunch, el antojo de la tarde en corte y cóctel, y la noche en algo que vale la pena presumir. Sin pretensiones — solo buena vibra, sabor que refresca al alma y el lugar perfecto para que todos la pasen bien.
+        </p>
+        <div class="pillars">
+          <div class="pillar">
+            <span class="pillar-icon">🍽️</span>
+            <div class="pillar-title">Cocina completa</div>
+            <p class="pillar-desc">Desayunos, cortes, sushi, pizzas, hamburguesas y más.</p>
+          </div>
+          <div class="pillar">
+            <span class="pillar-icon">🍹</span>
+            <div class="pillar-title">Mixología</div>
+            <p class="pillar-desc">Cocteles de autor, destilados y opciones sin alcohol.</p>
+          </div>
+          <div class="pillar">
+            <span class="pillar-icon">🚗</span>
+            <div class="pillar-title">Sin drama para llegar</div>
+            <p class="pillar-desc">Estacionamiento subterráneo con elevador directo a la terraza.</p>
+          </div>
+          <div class="pillar">
+            <span class="pillar-icon">🎶</span>
+            <div class="pillar-title">Ambiente y DJ</div>
+            <p class="pillar-desc">Familiar de día, prendido cuando hay evento especial.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENÚ -->
+  <section id="menu" class="menu-section">
+    <span class="s-label reveal">— Lo rico a tu alcance</span>
+    <h2 class="s-title reveal" style="transition-delay:.1s">Menú</h2>
+
+    <div class="menu-tabs reveal" style="transition-delay:.2s">
+      <button class="tab-btn active" onclick="switchTab('desayunos',this)">Desayunos</button>
+      <button class="tab-btn" onclick="switchTab('entradas',this)">Entradas</button>
+      <button class="tab-btn" onclick="switchTab('cortes',this)">Cortes</button>
+      <button class="tab-btn" onclick="switchTab('sushi',this)">Sushi</button>
+      <button class="tab-btn" onclick="switchTab('hamburguesas',this)">Hamburguesas</button>
+      <button class="tab-btn" onclick="switchTab('pizzas',this)">Pizzas</button>
+      <button class="tab-btn" onclick="switchTab('postres',this)">Postres</button>
+    </div>
+
+    <!-- Desayunos -->
+    <div id="tab-desayunos" class="tab-panel active">
+      <div class="menu-grid">
+        <div class="menu-item"><div class="menu-item-name">Enchiladas Poblanas</div><div class="menu-item-desc">Pollo encebollado, salsa poblana, rajas con elote, queso manchego gratinado, crema. GR: frijol refrito con totopos, 2 dobladas.</div><div class="menu-item-price">$150</div></div>
+        <div class="menu-item"><div class="menu-item-name">Enchiladas Suizas</div><div class="menu-item-desc">Pollo encebollado, salsa Suiza, queso manchego, cebolla morada, cilantro. GR: sope de pollo y frijoles nachos.</div><div class="menu-item-price">$165</div></div>
+        <div class="menu-item"><div class="menu-item-name">Chilaquiles Suizos</div><div class="menu-item-desc">Totopos, salsa Suiza, crema, queso manchego, cebolla morada, pechuga empanizada, aguacate.</div><div class="menu-item-price">$165</div></div>
+        <div class="menu-item"><div class="menu-item-name">Chilaquiles Crema Adobada</div><div class="menu-item-desc">Totopos, salsa Suiza, bistec de puerco empanizado, aguacate, queso manchego, cebolla morada.</div><div class="menu-item-price">$175</div></div>
+        <div class="menu-item"><div class="menu-item-name">Sandwich Boom</div><div class="menu-item-desc">Pollo asado o empanizado, jitomate, aros de cebolla, queso americano, panela, lechuga, chimichurri, 3 panes artesanales. GR: papas francesas.</div><div class="menu-item-price">$215</div></div>
+        <div class="menu-item"><div class="menu-item-name">Sandwich Sake</div><div class="menu-item-desc">Salmón, aguacate, jitomate, arúgula, germen, manzana, perejil seco, salsa chimichurri.</div><div class="menu-item-price">$200</div></div>
+        <div class="menu-item"><div class="menu-item-name">Bistec Arriero</div><div class="menu-item-desc">Bistec de res, chile jalapeño, aros de cebolla, nopal, queso panela, salsa norteña. GR: frijoles enteros, chilaquiles verdes.</div><div class="menu-item-price">$190</div></div>
+        <div class="menu-item"><div class="menu-item-name">Combo Boom</div><div class="menu-item-desc">2 hotcakes con mermelada de fresa, 1 huevo frito, 2 tocinos, chilaquiles rojo o verde.</div><div class="menu-item-price">$140</div></div>
+        <div class="menu-item"><div class="menu-item-name">Omelet Poblano</div><div class="menu-item-desc">Rajas con elote y queso Oaxaca, salsa poblana, crema y queso manchego. GR: papa hash, nopal con cebolla.</div><div class="menu-item-price">$120</div></div>
+        <div class="menu-item"><div class="menu-item-name">Huevos al Albañil</div><div class="menu-item-desc">2 huevos, arrachera, queso Oaxaca, salsa verde. GR: chilaquiles rojos.</div><div class="menu-item-price">$150</div></div>
+        <div class="menu-item"><div class="menu-item-name">Crepa Suiza</div><div class="menu-item-desc">Pollo encebollado, salsa Suiza, queso manchego, cebolla morada, cilantro.</div><div class="menu-item-price">$140</div></div>
+        <div class="menu-item"><div class="menu-item-name">Pan Francés</div><div class="menu-item-desc">Azúcar canela, mermelada de fresa, zarzamora o frambuesa, azúcar glass.</div><div class="menu-item-price">$115</div></div>
+      </div>
+    </div>
+
+    <!-- Entradas -->
+    <div id="tab-entradas" class="tab-panel">
+      <div class="menu-grid">
+        <div class="menu-item"><div class="menu-item-name">Aguachile</div><div class="menu-item-desc">Camarón, limón, pepino, cebolla morada, chile serrano, ajo, cilantro, aguacate, lechuga.</div><div class="menu-item-price">$325</div></div>
+        <div class="menu-item"><div class="menu-item-name">Camarón Docca</div><div class="menu-item-desc">Camarón tempurizado, mayonesa con chipotle, salsa ponzu picante, aderezo.</div><div class="menu-item-price">$240</div></div>
+        <div class="menu-item"><div class="menu-item-name">Camarones a la Diabla</div><div class="menu-item-desc">Camarón, mantequilla, ajo, salsa macha.</div><div class="menu-item-price">$235</div></div>
+        <div class="menu-item"><div class="menu-item-name">Cóctel de Camarón</div><div class="menu-item-desc">Cebolla, jitomate, aguacate, camarón 21/25, surimi, cóctel de tomate de la casa, cilantro, galletas saladitas.</div><div class="menu-item-price">$280</div></div>
+        <div class="menu-item"><div class="menu-item-name">Tabla de Quesos</div><div class="menu-item-desc">Mix de carnes y queso.</div><div class="menu-item-price">$180</div></div>
+        <div class="menu-item"><div class="menu-item-name">Ensalada Frutos Rojos</div><div class="menu-item-desc">Mix de lechuga, fresa, arándano, zarzamora, miel, mostaza, nuez pecana, ajonjolí.</div><div class="menu-item-price">$165</div></div>
+        <div class="menu-item"><div class="menu-item-name">Ensalada César</div><div class="menu-item-desc">Mix de lechugas, parmesano, crotones, aderezo César, pechuga asada.</div><div class="menu-item-price">$180</div></div>
+        <div class="menu-item"><div class="menu-item-name">Ensalada Mandala</div><div class="menu-item-desc">Canastilla artesanal de masa napolitana, mix de lechuga, vinagreta balsámica, huevo cocido, jitomate cherry, jamón, pepino.</div><div class="menu-item-price">$175</div></div>
+      </div>
+    </div>
+
+    <!-- Cortes -->
+    <div id="tab-cortes" class="tab-panel">
+      <div class="menu-grid">
+        <div class="menu-item"><div class="menu-item-name">Rib Eye</div><div class="menu-item-desc">350 gr. Con champiñones, calabaza, papa cambray, puré de papa con espárragos, nopal asado y chiles toreados.</div><div class="menu-item-price">$340</div></div>
+        <div class="menu-item"><div class="menu-item-name">New York</div><div class="menu-item-desc">300-350 gr. Con guarnición completa.</div><div class="menu-item-price">$340</div></div>
+        <div class="menu-item"><div class="menu-item-name">T-Bone</div><div class="menu-item-desc">300-350 gr. Con guarnición completa.</div><div class="menu-item-price">$340</div></div>
+        <div class="menu-item"><div class="menu-item-name">Picaña</div><div class="menu-item-desc">300-350 gr. Con guarnición completa.</div><div class="menu-item-price">$330</div></div>
+        <div class="menu-item"><div class="menu-item-name">Molcajete Boom</div><div class="menu-item-desc">Para 3-4 personas: arrachera, bistec, pollo, argentino, chistorra, cecina, queso panela, longaniza, nopal, aguacate, limones, salsa y tortillas.</div><div class="menu-item-price">$490</div></div>
+        <div class="menu-item"><div class="menu-item-name">Pasta Fettuccini Alfredo</div><div class="menu-item-desc">Salsa Alfredo, queso parmesano.</div><div class="menu-item-price">$175</div></div>
+        <div class="menu-item"><div class="menu-item-name">Spaghetti Bolognesa</div><div class="menu-item-desc">Salsa bolognesa con carne, parmesano.</div><div class="menu-item-price">$175</div></div>
+        <div class="menu-item"><div class="menu-item-name">Burritos</div><div class="menu-item-desc">Arrachera, campechano, pollo o bistec. Con queso Oaxaca, pimiento morrón, cebolla, frijol, tortilla de harina, papas gajo.</div><div class="menu-item-price">desde $145</div></div>
+      </div>
+    </div>
+
+    <!-- Sushi -->
+    <div id="tab-sushi" class="tab-panel">
+      <div class="menu-grid">
+        <div class="menu-item"><div class="menu-item-name">Boom Roll ⭐</div><div class="menu-item-desc">Especialidad de la casa. Camarón empanizado, Philadelphia, aguacate, kakiague de verduras y pepino, salsa Tampico, ajonjolí.</div><div class="menu-item-price">$185</div></div>
+        <div class="menu-item"><div class="menu-item-name">Gyo Roll</div><div class="menu-item-desc">Rollito tempurizado, arrachera, cebollín, queso manchego, aguacate, espárrago tempurizado, chiles toreados, aderezo chipotle.</div><div class="menu-item-price">$250</div></div>
+        <div class="menu-item"><div class="menu-item-name">Cangretuna</div><div class="menu-item-desc">XD: surimi tempurizado, aguacate, pepino. XF: atún por fuera, salsa sriracha y chipotle flameado.</div><div class="menu-item-price">$220</div></div>
+        <div class="menu-item"><div class="menu-item-name">Salmón Roll</div><div class="menu-item-desc">Salmón, mayonesa chipotle, ajonjolí, Tampico, Philadelphia, aguacate, pepino.</div><div class="menu-item-price">$210</div></div>
+        <div class="menu-item"><div class="menu-item-name">Chicken Roll</div><div class="menu-item-desc">XD: aguacate, lechuga, empanizado, cebollín, salsa chipotle. XF: algarol, salsa chipotle y sriracha.</div><div class="menu-item-price">$245</div></div>
+        <div class="menu-item"><div class="menu-item-name">Dragon Roll</div><div class="menu-item-desc">Camarón empanizado, pepino, Philadelphia, aguacate, plátano, salsa bora bora, ajonjolí.</div><div class="menu-item-price">$170</div></div>
+        <div class="menu-item"><div class="menu-item-name">Coco Roll</div><div class="menu-item-desc">XD: salmón, Philadelphia, aguacate. XF: empanizado con panko, coco, hilo de papa frito, salsa de anguila dulce.</div><div class="menu-item-price">$180</div></div>
+        <div class="menu-item"><div class="menu-item-name">Churro Roll</div><div class="menu-item-desc">Rollito empanizado de azúcar canela, nutella, queso Philadelphia, plátano frito.</div><div class="menu-item-price">$190</div></div>
+      </div>
+    </div>
+
+    <!-- Hamburguesas -->
+    <div id="tab-hamburguesas" class="tab-panel">
+      <div class="menu-grid">
+        <div class="menu-item"><div class="menu-item-name">Jefe Gorgory</div><div class="menu-item-desc">Carne 200 gr, donut kryspi, cebolla caramelizada, queso americano, tocino caramelizado, aro de cebolla.</div><div class="menu-item-price">$225</div></div>
+        <div class="menu-item"><div class="menu-item-name">Hamburguesa Canadiense</div><div class="menu-item-desc">Carne de res 200 gr, 2 rebanadas jamón de cerdo, queso americano, tocino con cebolla caramelizada con miel, ensalada y papas gajo.</div><div class="menu-item-price">$235</div></div>
+        <div class="menu-item"><div class="menu-item-name">Hamburguesa Luccia</div><div class="menu-item-desc">Dona Krispy, pepperoni, salsa de tomate, carne 200 gr, queso Oaxaca, manchego, cebolla morada, champiñón, lechuga, jitomate y papas.</div><div class="menu-item-price">$265</div></div>
+        <div class="menu-item"><div class="menu-item-name">Clásica</div><div class="menu-item-desc">Carne de res, lechuga, jitomate, queso americano, aderezos, cebolla, papas gajo.</div><div class="menu-item-price">$145</div></div>
+        <div class="menu-item"><div class="menu-item-name">Arrachera</div><div class="menu-item-desc">Arrachera marinada, queso americano, lechuga, jitomate, cebolla, aderezos, papas gajo.</div><div class="menu-item-price">$170</div></div>
+        <div class="menu-item"><div class="menu-item-name">Bacon</div><div class="menu-item-desc">Carne de res, tocino, salsa BBQ, lechuga, jitomate, cebolla, aderezos, papas gajo.</div><div class="menu-item-price">$180</div></div>
+        <div class="menu-item"><div class="menu-item-name">Hot Dog Jumbo</div><div class="menu-item-desc">Salchicha jumbo, pan, vegetales, aderezos, queso Oaxaca.</div><div class="menu-item-price">$135</div></div>
+        <div class="menu-item"><div class="menu-item-name">Hot Dog Hawaiano</div><div class="menu-item-desc">Pan, salchicha jumbo, queso, piña, jamón, aderezo, papas gajo.</div><div class="menu-item-price">$150</div></div>
+      </div>
+    </div>
+
+    <!-- Pizzas -->
+    <div id="tab-pizzas" class="tab-panel">
+      <div class="menu-grid">
+        <div class="menu-item"><div class="menu-item-name">Pizza Boom Monstruo</div><div class="menu-item-desc">Carne de hamburguesa, papa gajo, boneless, chistorra, queso Oaxaca, salsa de tomate, mozzarella, salsa ranch, BBQ, doble base.</div><div class="menu-item-price">$250</div></div>
+        <div class="menu-item"><div class="menu-item-name">Pizza Carnes</div><div class="menu-item-desc">Arrachera, chorizo, pepperoni, argentino, chistorra, bistec, longaniza.</div><div class="menu-item-price">$190</div></div>
+        <div class="menu-item"><div class="menu-item-name">Pizza 4 Chesse</div><div class="menu-item-desc">Salsa alfredo, queso parmesano, queso crema, mozzarella, queso Oaxaca, perejil seco.</div><div class="menu-item-price">$180</div></div>
+        <div class="menu-item"><div class="menu-item-name">Pizza Pastor</div><div class="menu-item-desc">Adobo pastor, carne al pastor, piña, cebolla, cilantro, aguacate.</div><div class="menu-item-price">$175</div></div>
+        <div class="menu-item"><div class="menu-item-name">Pepperoni</div><div class="menu-item-desc">Masa artesanal, salsa de tomates frescos con hierbas, aceite de oliva, queso mozzarella.</div><div class="menu-item-price">$165</div></div>
+        <div class="menu-item"><div class="menu-item-name">Pizza Napolitana</div><div class="menu-item-desc">Rodajas de papa, tocino, cebolla morada, chimichurri, salchicha italiana, romero.</div><div class="menu-item-price">$165</div></div>
+        <div class="menu-item"><div class="menu-item-name">Vegetariana</div><div class="menu-item-desc">Champiñón portobello, morrón, jitomate cherry, cebolla morada, aceitunas negras, albahaca.</div><div class="menu-item-price">$175</div></div>
+        <div class="menu-item"><div class="menu-item-name">Calzone</div><div class="menu-item-desc">Pepperoni, tocino, queso mozzarella, salchicha italiana, salsa de tomate, queso parmesano.</div><div class="menu-item-price">$135</div></div>
+      </div>
+    </div>
+
+    <!-- Postres -->
+    <div id="tab-postres" class="tab-panel">
+      <div class="menu-grid">
+        <div class="menu-item"><div class="menu-item-name">Helado Tempura</div><div class="menu-item-desc">Pan brioche, helado de vainilla, chocolate, azúcar glass.</div><div class="menu-item-price">$145</div></div>
+        <div class="menu-item"><div class="menu-item-name">Camelia</div><div class="menu-item-desc">Helado de vainilla 2 bolas, brandy, crema de café, cubos de gelatina, crema batida.</div><div class="menu-item-price">$180</div></div>
+        <div class="menu-item"><div class="menu-item-name">Canollis</div><div class="menu-item-desc">3 canollis, crema batida sabor fresa o pistache con chispas de chocolate y nuez picada.</div><div class="menu-item-price">$130</div></div>
+        <div class="menu-item"><div class="menu-item-name">Crepa con Helado</div><div class="menu-item-desc">Crepa con helado de vainilla, azúcar glass, chocolate líquido. Opción flameada con licor: +$50.</div><div class="menu-item-price">$130</div></div>
+        <div class="menu-item"><div class="menu-item-name">Cheesecake / Pastel 3 Chocolates / Red Velvet</div><div class="menu-item-desc">Rebanada de temporada.</div><div class="menu-item-price">$125</div></div>
+      </div>
+    </div>
+
+    <div class="menu-pdf-links reveal">
+      <span style="font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)">Menú completo en PDF:</span>
+      <a href="https://drive.google.com/file/d/1TT0nXKj_bWP3SiJKTnGuKNB4tBYCxdEa" class="pdf-link" target="_blank"><span class="pdf-icon">↗</span> Menú General</a>
+      <a href="https://drive.google.com/file/d/1HmZWvlQDjlIF3LpjR2n2Ew7YUE6BJgMX" class="pdf-link" target="_blank"><span class="pdf-icon">↗</span> Menú Desayunos</a>
+    </div>
+  </section>
+
+  <!-- GALERÍA -->
+  <section id="galeria">
+    <span class="s-label reveal">— El espacio</span>
+    <h2 class="s-title reveal" style="transition-delay:.1s">Así se ve<br><em>Boom</em></h2>
+    <div class="galeria-slider-wrap reveal" style="transition-delay:.2s">
+      <div class="galeria-track" id="galeriaTrack">
+        <div class="galeria-slide"><img src="https://drive.google.com/thumbnail?id=1b8VWGyzTiNRO8dFpOVZ5ZON79S0po4dK&sz=w900" alt="" loading="lazy"/></div>
+        <div class="galeria-slide"><img src="https://drive.google.com/thumbnail?id=1dg0Joc9T4XOrubDRfjIXXqDpOxE9SxUR&sz=w900" alt="" loading="lazy"/></div>
+        <div class="galeria-slide"><img src="https://drive.google.com/thumbnail?id=1YFViyJiHJQ3vT0HY7KzU9zf-wrQWTp-u&sz=w900" alt="" loading="lazy"/></div>
+        <div class="galeria-slide"><img src="https://drive.google.com/thumbnail?id=1x2-mSEQIQYk-B340QRN1Lk7f23VuQJwp&sz=w900" alt="" loading="lazy"/></div>
+        <div class="galeria-slide"><img src="https://drive.google.com/thumbnail?id=1aZW-ULqlsirwQkZnbb0UwPEfALmDcKsp&sz=w900" alt="" loading="lazy"/></div>
+        <div class="galeria-slide"><img src="https://drive.google.com/thumbnail?id=1O6Ln5LGEWbwxHQ2rIrBPIuzFJBWElZDM&sz=w900" alt="" loading="lazy"/></div>
+        <div class="galeria-slide"><img src="https://drive.google.com/thumbnail?id=1gwV9aFBDeuSewNC-aTSoVHooMAFVFXqY&sz=w900" alt="" loading="lazy"/></div>
+        <div class="galeria-slide"><img src="https://drive.google.com/thumbnail?id=1QrI-MblYE6YpFXtea71ayCIdrDCKVkPm&sz=w900" alt="" loading="lazy"/></div>
+        <div class="galeria-slide"><img src="https://drive.google.com/thumbnail?id=1g-gsooxznIKEQJAeNTlxxsbXylddmJNC&sz=w900" alt="" loading="lazy"/></div>
+        <div class="galeria-slide"><img src="https://drive.google.com/thumbnail?id=1R6sBKeyDXY5RdomQ6JKfx4GzolQFCfdZ&sz=w900" alt="" loading="lazy"/></div>
+        <div class="galeria-slide"><img src="https://drive.google.com/thumbnail?id=1BFKO_rcEg-G28Yg3GnaZHKk_dCK1dwGA&sz=w900" alt="" loading="lazy"/></div>
+        <div class="galeria-slide"><img src="https://drive.google.com/thumbnail?id=1BvYQuKjmsEO9GGf6G5xGdosZ9C8EyxJ1&sz=w900" alt="" loading="lazy"/></div>
+        <div class="galeria-slide"><img src="https://drive.google.com/thumbnail?id=1CHX7xE8H1w_ZE2d8p4xUWbEAj-DEhNdj&sz=w900" alt="" loading="lazy"/></div>
+        <div class="galeria-slide"><img src="https://drive.google.com/thumbnail?id=1E0sxV52ZmVR5kfQKNMA7td7SHjZ4jU_-&sz=w900" alt="" loading="lazy"/></div>
+        <div class="galeria-slide"><img src="https://drive.google.com/thumbnail?id=1xWTpwGV4y4Ntw4arttIpZ37I1d7YvOal&sz=w900" alt="" loading="lazy"/></div>
+        <div class="galeria-slide"><img src="https://drive.google.com/thumbnail?id=1yWcHv7iu8EGMMfupXmnPDlnviOQ7h5UG&sz=w900" alt="" loading="lazy"/></div>
+      </div>
+      <div class="slider-controls">
+        <div class="slider-dots" id="sliderDots"></div>
+        <div class="slider-arrows">
+          <button class="slider-arrow" id="slidePrev">←</button>
+          <button class="slider-arrow" id="slideNext">→</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BAR -->
+  <section id="bar" class="cocktails">
+    <span class="s-label reveal">— Mixología</span>
+    <h2 class="s-title reveal" style="transition-delay:.1s">Explosión<br>de <em>sabor</em></h2>
+    <div class="cocktails-grid">
+      <div class="cocktail-card reveal"><div class="cocktail-name">Spritz</div><div class="cocktail-desc">Aperol, Prosecco, agua mineral.</div><div class="cocktail-price">$160</div></div>
+      <div class="cocktail-card reveal" style="transition-delay:.05s"><div class="cocktail-name">Carajillo</div><div class="cocktail-desc">Licor 43, café espresso, granos de café, twist de naranja.</div><div class="cocktail-price">$145</div></div>
+      <div class="cocktail-card reveal" style="transition-delay:.1s"><div class="cocktail-name">Clericot</div><div class="cocktail-desc">Vino tinto, granadina, limón verde, agua mineral. Garnish: manzana, fresa, pera.</div><div class="cocktail-price">$135</div></div>
+      <div class="cocktail-card reveal" style="transition-delay:.15s"><div class="cocktail-name">Margarita</div><div class="cocktail-desc">Tequila, Cointreau, limón.</div><div class="cocktail-price">$135</div></div>
+      <div class="cocktail-card reveal" style="transition-delay:.2s"><div class="cocktail-name">Mezcalita</div><div class="cocktail-desc">Mezcal, jugo de limón. Sabores: Jamaica, tamarindo, frutos rojos, limón.</div><div class="cocktail-price">$130</div></div>
+      <div class="cocktail-card reveal" style="transition-delay:.25s"><div class="cocktail-name">Mojito de Coco</div><div class="cocktail-desc">Ron blanco, jugo de limón, hierbabuena, Calahua, agua mineral, coco rayado.</div><div class="cocktail-price">$130</div></div>
+      <div class="cocktail-card reveal" style="transition-delay:.3s"><div class="cocktail-name">Grinch Cocktail</div><div class="cocktail-desc">Licor de melón (Midori), vodka, jugo de limón, refresco de lima limón.</div><div class="cocktail-price">$130</div></div>
+      <div class="cocktail-card reveal" style="transition-delay:.35s"><div class="cocktail-name">Cantarito</div><div class="cocktail-desc">1/2 Lt $110 · 1 Lt $180. La opción clásica para compartir.</div><div class="cocktail-price">desde $110</div></div>
+    </div>
+    <p style="margin-top:28px;font-size:.8rem;color:var(--muted);text-align:center">La mayoría de los cocteles pueden pedirse sin alcohol o ajustando licores.</p>
+  </section>
+
+  <!-- EVENTOS -->
+  <section id="eventos">
+    <span class="s-label reveal">— De día o de noche</span>
+    <h2 class="s-title reveal" style="transition-delay:.1s">El plan<br><em>perfecto</em></h2>
+    <div class="eventos-wrap">
+      <div>
+        <div class="evento-card reveal">
+          <span class="evento-tag">Cumpleaños</span>
+          <div class="evento-card-title">Festéjate con ¡Boom!</div>
+          <div class="evento-card-desc">Shots de cortesía para todos tus invitados, rebanada de pastel con bengala para el festejado y dos regalos sorpresa al entregarlo. Pregunta por disponibilidad.</div>
+        </div>
+        <div class="evento-card reveal" style="transition-delay:.1s">
+          <span class="evento-tag">Eventos privados</span>
+          <div class="evento-card-title">Tu área, a tu manera</div>
+          <div class="evento-card-desc">Contamos con áreas exclusivas para eventos privados. Las condiciones dependen del tipo de evento, número de personas, día y si requieres solo espacio o paquete con servicios.</div>
+        </div>
+        <div class="evento-card reveal" style="transition-delay:.2s">
+          <span class="evento-tag">Noches con DJ</span>
+          <div class="evento-card-title">Cuando se prende</div>
+          <div class="evento-card-desc">Eventos especiales nocturnos con artistas y DJ. En estas fechas no se recomienda la asistencia de menores por altos niveles de sonido, humo y luces robóticas.</div>
+        </div>
+        <div style="margin-top:36px" class="reveal" style="transition-delay:.3s">
+          <a href="https://wa.me/5215648504384" class="btn-primary" target="_blank">Cotizar por WhatsApp →</a>
+        </div>
+      </div>
+      <div class="eventos-img reveal" style="transition-delay:.15s">
+        <img src="https://drive.google.com/thumbnail?id=1UdY3qaKJRjHV89WgVV0c1Owru90SMhIl&sz=w900" alt="Cumpleaños Boom Terraza"/>
+        <div class="eventos-img-caption">Aquí<br>nos <span>vemos.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+  <div class="cta-band">
+    <div class="cta-band-text reveal">
+      <div class="cta-band-title">Sin pretextos<br>para no venir.</div>
+      <p class="cta-band-sub">Estacionamiento subterráneo · Elevador · Cocina completa · El spot.</p>
+    </div>
+    <a href="https://wa.me/5215648504384" class="btn-dark" target="_blank">Escríbenos al 56 4850 4384 →</a>
+  </div>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <span class="s-label reveal">— Encuéntranos</span>
+    <h2 class="s-title reveal" style="transition-delay:.1s">Cómo<br><em>llegar</em></h2>
+    <div class="contacto-grid">
+      <div class="contacto-block reveal">
+        <span class="cb-label">Dirección</span>
+        <div class="cb-value">Privada Tercera de Tulipanes, Mz B, Lote 1, Villa de las Flores, Coacalco (55716)<br><br><a href="https://maps.app.goo.gl/9dwQaWyqkWvgQH6W6" target="_blank">Ver en Google Maps →</a></div>
+      </div>
+      <div class="contacto-block reveal" style="transition-delay:.1s">
+        <span class="cb-label">Horarios</span>
+        <div>
+          <div class="horario-row"><span class="horario-day">Lunes – Jueves</span><span class="horario-time">08:00 – 22:00</span></div>
+          <div class="horario-row"><span class="horario-day">Viernes – Sábado</span><span class="horario-time">08:00 – 01:00</span></div>
+          <div class="horario-row"><span class="horario-day">Domingo</span><span class="horario-time">08:00 – 22:00</span></div>
+        </div>
+        <div style="margin-top:20px">
+          <span class="cb-label">Acceso vehicular</span>
+          <div class="cb-value" style="font-size:1rem">Blvd. De Las Flores, frente al Oxxo de la esquina</div>
+        </div>
+      </div>
+      <div class="contacto-block reveal" style="transition-delay:.2s">
+        <span class="cb-label">Contacto</span>
+        <div class="cb-value">
+          <a href="https://wa.me/5215648504384" target="_blank">WhatsApp: 56 4850 4384</a><br><br>
+          <a href="https://instagram.com/terraza.boom" target="_blank">@terraza.boom</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Boom Terraza</div>
+    <span class="footer-copy">© 2025 Boom Terraza. Todos los derechos reservados.</span>
+    <div class="footer-social">
+      <a href="https://instagram.com/terraza.boom" target="_blank">Instagram</a>
+      <a href="https://www.facebook.com/boom.terraza" target="_blank">Facebook</a>
+    </div>
+  </footer>
+
+  <script>
+    // CURSOR 🍹
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, button, .galeria-slide, .menu-item, .cocktail-card').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+
+    // REVEAL
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    document.querySelectorAll('.hero .reveal').forEach(el => setTimeout(() => el.classList.add('visible'), 120));
+
+    // TABS
+    function switchTab(name, btn) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-' + name).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    // SLIDER — 2 slides visible at a time
+    (function() {
+      const track  = document.getElementById('galeriaTrack');
+      const dotsEl = document.getElementById('sliderDots');
+      const slides = track ? track.querySelectorAll('.galeria-slide') : [];
+      if (!slides.length) return;
+
+      const total  = slides.length;           // 16
+      const step   = 2;                        // 2 per view
+      const pages  = Math.ceil(total / step);  // 8 pairs
+      let current  = 0;
+
+      // Build dots
+      for (let i = 0; i < pages; i++) {
+        const d = document.createElement('button');
+        d.className = 'slider-dot' + (i === 0 ? ' active' : '');
+        d.addEventListener('click', () => goTo(i));
+        dotsEl.appendChild(d);
+      }
+
+      function goTo(page) {
+        current = (page + pages) % pages;
+        // each slide is 50% of container + 2px gap; shift by number of slides
+        const slideW = track.parentElement.offsetWidth / 2;
+        track.style.transform = `translateX(calc(-${current * step} * (50% + 2px)))`;
+        dotsEl.querySelectorAll('.slider-dot').forEach((d, i) => d.classList.toggle('active', i === current));
+      }
+
+      document.getElementById('slideNext').addEventListener('click', () => goTo(current + 1));
+      document.getElementById('slidePrev').addEventListener('click', () => goTo(current - 1));
+
+      // Auto-advance every 4s
+      let timer = setInterval(() => goTo(current + 1), 4000);
+      track.parentElement.addEventListener('mouseenter', () => clearInterval(timer));
+      track.parentElement.addEventListener('mouseleave', () => { timer = setInterval(() => goTo(current + 1), 4000); });
+    })();
+
+    // BACK TO TOP
+    const backTop = document.getElementById('backTop');
+    window.addEventListener('scroll', () => {
+      backTop.classList.toggle('visible', window.scrollY > 400);
+    });
+  </script>
+</body>
+</html>
