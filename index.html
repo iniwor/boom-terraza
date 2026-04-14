@@ -395,24 +395,131 @@
       color: var(--amber);
     }
 
-    .menu-pdf-links {
-      margin-top: 48px;
-      display: flex; gap: 16px; flex-wrap: wrap; align-items: center;
+    /* ── PDF CARDS ── */
+    .menu-intro {
+      font-size: 1.05rem;
+      color: var(--muted);
+      margin-top: 28px;
+      max-width: 520px;
+      line-height: 1.7;
     }
-    .pdf-link {
-      display: inline-flex; align-items: center; gap: 8px;
-      border: 1px solid var(--border);
-      color: var(--text);
+    .pdf-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: var(--border);
+      margin-top: 64px;
+    }
+    .pdf-card {
+      position: relative;
+      background: var(--card);
+      padding: 64px 52px 60px;
       text-decoration: none;
-      padding: 12px 24px;
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      transition: border-color .3s, color .3s;
+      overflow: hidden;
+      transition: background .4s;
+      display: flex;
+      flex-direction: column;
+      border-top: 3px solid transparent;
+      transition: background .4s, border-color .4s;
     }
-    .pdf-link:hover { border-color: var(--amber); color: var(--amber); }
-    .pdf-icon { font-size: 1rem; }
+    .pdf-card:hover {
+      background: #1C1C1C;
+      border-top-color: var(--amber);
+    }
+    /* Ghost number watermark */
+    .pdf-card::after {
+      content: attr(data-num);
+      position: absolute;
+      right: -8px;
+      bottom: -24px;
+      font-family: var(--serif);
+      font-size: clamp(120px, 16vw, 200px);
+      font-weight: 800;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(232,160,48,0.08);
+      line-height: 1;
+      letter-spacing: -0.05em;
+      pointer-events: none;
+      user-select: none;
+      transition: -webkit-text-stroke .4s;
+    }
+    .pdf-card:hover::after {
+      -webkit-text-stroke: 1px rgba(232,160,48,0.18);
+    }
+    /* Gradient sweep on hover */
+    .pdf-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(232,160,48,0.05) 0%, transparent 55%);
+      opacity: 0;
+      transition: opacity .5s;
+    }
+    .pdf-card:hover::before { opacity: 1; }
+
+    .pdf-card-num {
+      font-family: var(--serif);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      color: var(--amber);
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .pdf-card-num::after {
+      content: '';
+      display: block;
+      height: 1px;
+      width: 40px;
+      background: rgba(232,160,48,0.35);
+    }
+    .pdf-card-label {
+      font-family: var(--serif);
+      font-size: clamp(44px, 6vw, 80px);
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--cream);
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .pdf-card:hover .pdf-card-label { color: var(--cream); }
+    .pdf-card-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 320px;
+      flex: 1;
+      position: relative;
+      z-index: 1;
+    }
+    .pdf-card-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 48px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--amber);
+      padding: 13px 26px;
+      width: fit-content;
+      position: relative;
+      z-index: 1;
+      transition: background .3s, gap .3s;
+    }
+    .pdf-card:hover .pdf-card-cta { background: var(--amber-d); gap: 18px; }
+    @media (max-width: 700px) {
+      .pdf-cards { grid-template-columns: 1fr; }
+      .pdf-card { padding: 48px 32px 44px; }
+    }
 
     /* ── GALERÍA SLIDER ── */
     .galeria-slider-wrap {
@@ -426,8 +533,8 @@
       gap: 4px;
     }
     .galeria-slide {
-      flex: 0 0 calc(50% - 2px);
-      min-width: calc(50% - 2px);
+      flex: 0 0 calc(33.333% - 2.667px);
+      min-width: calc(33.333% - 2.667px);
       aspect-ratio: 4/3;
       overflow: hidden;
       position: relative;
@@ -554,7 +661,7 @@
     .eventos-img {
       position: relative;
       overflow: hidden;
-      aspect-ratio: 3/4;
+      aspect-ratio: 4/3;
     }
     .eventos-img img {
       width: 100%; height: 100%;
@@ -713,7 +820,6 @@
       <li><a href="#nosotros">Nosotros</a></li>
       <li><a href="#menu">Menú</a></li>
       <li><a href="#galeria">Galería</a></li>
-      <li><a href="#bar">Bar</a></li>
       <li><a href="#eventos">Eventos</a></li>
       <li><a href="https://wa.me/5215648504384" target="_blank" class="nav-wa">Reservar ↗</a></li>
     </ul>
@@ -722,7 +828,7 @@
   <!-- HERO -->
   <div class="hero">
     <div class="hero-img">
-      <img src="https://drive.google.com/thumbnail?id=1G71JsSoehlnLytfBJ3Qivobq0ZtXtP5H&sz=w1600" alt="Boom Terraza" loading="eager"/>
+      <img src="https://lh3.googleusercontent.com/d/1a7BEuKX6njkIcWJf4irWQwAL1ZDamNEw=w1600" alt="Boom Terraza" loading="eager"/>
     </div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
@@ -785,7 +891,7 @@
     </h2>
     <div class="nosotros-grid">
       <div class="nosotros-img reveal">
-        <img src="https://drive.google.com/thumbnail?id=1aW6_CKvjS1fADNqq3E1m393P9R4Y8i8S&sz=w900" alt="Boom Terraza ambiente"/>
+        <img src="https://drive.google.com/thumbnail?id=1G71JsSoehlnLytfBJ3Qivobq0ZtXtP5H&sz=w900" alt="Boom Terraza ambiente"/>
       </div>
       <div class="nosotros-body reveal" style="transition-delay:.15s">
         <p class="nosotros-text">
@@ -821,120 +927,21 @@
   <section id="menu" class="menu-section">
     <span class="s-label reveal">— Lo rico a tu alcance</span>
     <h2 class="s-title reveal" style="transition-delay:.1s">Menú</h2>
+    <p class="menu-intro reveal" style="transition-delay:.2s">Descarga nuestro menú completo en PDF y llega con todo decidido.</p>
 
-    <div class="menu-tabs reveal" style="transition-delay:.2s">
-      <button class="tab-btn active" onclick="switchTab('desayunos',this)">Desayunos</button>
-      <button class="tab-btn" onclick="switchTab('entradas',this)">Entradas</button>
-      <button class="tab-btn" onclick="switchTab('cortes',this)">Cortes</button>
-      <button class="tab-btn" onclick="switchTab('sushi',this)">Sushi</button>
-      <button class="tab-btn" onclick="switchTab('hamburguesas',this)">Hamburguesas</button>
-      <button class="tab-btn" onclick="switchTab('pizzas',this)">Pizzas</button>
-      <button class="tab-btn" onclick="switchTab('postres',this)">Postres</button>
-    </div>
-
-    <!-- Desayunos -->
-    <div id="tab-desayunos" class="tab-panel active">
-      <div class="menu-grid">
-        <div class="menu-item"><div class="menu-item-name">Enchiladas Poblanas</div><div class="menu-item-desc">Pollo encebollado, salsa poblana, rajas con elote, queso manchego gratinado, crema. GR: frijol refrito con totopos, 2 dobladas.</div><div class="menu-item-price">$150</div></div>
-        <div class="menu-item"><div class="menu-item-name">Enchiladas Suizas</div><div class="menu-item-desc">Pollo encebollado, salsa Suiza, queso manchego, cebolla morada, cilantro. GR: sope de pollo y frijoles nachos.</div><div class="menu-item-price">$165</div></div>
-        <div class="menu-item"><div class="menu-item-name">Chilaquiles Suizos</div><div class="menu-item-desc">Totopos, salsa Suiza, crema, queso manchego, cebolla morada, pechuga empanizada, aguacate.</div><div class="menu-item-price">$165</div></div>
-        <div class="menu-item"><div class="menu-item-name">Chilaquiles Crema Adobada</div><div class="menu-item-desc">Totopos, salsa Suiza, bistec de puerco empanizado, aguacate, queso manchego, cebolla morada.</div><div class="menu-item-price">$175</div></div>
-        <div class="menu-item"><div class="menu-item-name">Sandwich Boom</div><div class="menu-item-desc">Pollo asado o empanizado, jitomate, aros de cebolla, queso americano, panela, lechuga, chimichurri, 3 panes artesanales. GR: papas francesas.</div><div class="menu-item-price">$215</div></div>
-        <div class="menu-item"><div class="menu-item-name">Sandwich Sake</div><div class="menu-item-desc">Salmón, aguacate, jitomate, arúgula, germen, manzana, perejil seco, salsa chimichurri.</div><div class="menu-item-price">$200</div></div>
-        <div class="menu-item"><div class="menu-item-name">Bistec Arriero</div><div class="menu-item-desc">Bistec de res, chile jalapeño, aros de cebolla, nopal, queso panela, salsa norteña. GR: frijoles enteros, chilaquiles verdes.</div><div class="menu-item-price">$190</div></div>
-        <div class="menu-item"><div class="menu-item-name">Combo Boom</div><div class="menu-item-desc">2 hotcakes con mermelada de fresa, 1 huevo frito, 2 tocinos, chilaquiles rojo o verde.</div><div class="menu-item-price">$140</div></div>
-        <div class="menu-item"><div class="menu-item-name">Omelet Poblano</div><div class="menu-item-desc">Rajas con elote y queso Oaxaca, salsa poblana, crema y queso manchego. GR: papa hash, nopal con cebolla.</div><div class="menu-item-price">$120</div></div>
-        <div class="menu-item"><div class="menu-item-name">Huevos al Albañil</div><div class="menu-item-desc">2 huevos, arrachera, queso Oaxaca, salsa verde. GR: chilaquiles rojos.</div><div class="menu-item-price">$150</div></div>
-        <div class="menu-item"><div class="menu-item-name">Crepa Suiza</div><div class="menu-item-desc">Pollo encebollado, salsa Suiza, queso manchego, cebolla morada, cilantro.</div><div class="menu-item-price">$140</div></div>
-        <div class="menu-item"><div class="menu-item-name">Pan Francés</div><div class="menu-item-desc">Azúcar canela, mermelada de fresa, zarzamora o frambuesa, azúcar glass.</div><div class="menu-item-price">$115</div></div>
-      </div>
-    </div>
-
-    <!-- Entradas -->
-    <div id="tab-entradas" class="tab-panel">
-      <div class="menu-grid">
-        <div class="menu-item"><div class="menu-item-name">Aguachile</div><div class="menu-item-desc">Camarón, limón, pepino, cebolla morada, chile serrano, ajo, cilantro, aguacate, lechuga.</div><div class="menu-item-price">$325</div></div>
-        <div class="menu-item"><div class="menu-item-name">Camarón Docca</div><div class="menu-item-desc">Camarón tempurizado, mayonesa con chipotle, salsa ponzu picante, aderezo.</div><div class="menu-item-price">$240</div></div>
-        <div class="menu-item"><div class="menu-item-name">Camarones a la Diabla</div><div class="menu-item-desc">Camarón, mantequilla, ajo, salsa macha.</div><div class="menu-item-price">$235</div></div>
-        <div class="menu-item"><div class="menu-item-name">Cóctel de Camarón</div><div class="menu-item-desc">Cebolla, jitomate, aguacate, camarón 21/25, surimi, cóctel de tomate de la casa, cilantro, galletas saladitas.</div><div class="menu-item-price">$280</div></div>
-        <div class="menu-item"><div class="menu-item-name">Tabla de Quesos</div><div class="menu-item-desc">Mix de carnes y queso.</div><div class="menu-item-price">$180</div></div>
-        <div class="menu-item"><div class="menu-item-name">Ensalada Frutos Rojos</div><div class="menu-item-desc">Mix de lechuga, fresa, arándano, zarzamora, miel, mostaza, nuez pecana, ajonjolí.</div><div class="menu-item-price">$165</div></div>
-        <div class="menu-item"><div class="menu-item-name">Ensalada César</div><div class="menu-item-desc">Mix de lechugas, parmesano, crotones, aderezo César, pechuga asada.</div><div class="menu-item-price">$180</div></div>
-        <div class="menu-item"><div class="menu-item-name">Ensalada Mandala</div><div class="menu-item-desc">Canastilla artesanal de masa napolitana, mix de lechuga, vinagreta balsámica, huevo cocido, jitomate cherry, jamón, pepino.</div><div class="menu-item-price">$175</div></div>
-      </div>
-    </div>
-
-    <!-- Cortes -->
-    <div id="tab-cortes" class="tab-panel">
-      <div class="menu-grid">
-        <div class="menu-item"><div class="menu-item-name">Rib Eye</div><div class="menu-item-desc">350 gr. Con champiñones, calabaza, papa cambray, puré de papa con espárragos, nopal asado y chiles toreados.</div><div class="menu-item-price">$340</div></div>
-        <div class="menu-item"><div class="menu-item-name">New York</div><div class="menu-item-desc">300-350 gr. Con guarnición completa.</div><div class="menu-item-price">$340</div></div>
-        <div class="menu-item"><div class="menu-item-name">T-Bone</div><div class="menu-item-desc">300-350 gr. Con guarnición completa.</div><div class="menu-item-price">$340</div></div>
-        <div class="menu-item"><div class="menu-item-name">Picaña</div><div class="menu-item-desc">300-350 gr. Con guarnición completa.</div><div class="menu-item-price">$330</div></div>
-        <div class="menu-item"><div class="menu-item-name">Molcajete Boom</div><div class="menu-item-desc">Para 3-4 personas: arrachera, bistec, pollo, argentino, chistorra, cecina, queso panela, longaniza, nopal, aguacate, limones, salsa y tortillas.</div><div class="menu-item-price">$490</div></div>
-        <div class="menu-item"><div class="menu-item-name">Pasta Fettuccini Alfredo</div><div class="menu-item-desc">Salsa Alfredo, queso parmesano.</div><div class="menu-item-price">$175</div></div>
-        <div class="menu-item"><div class="menu-item-name">Spaghetti Bolognesa</div><div class="menu-item-desc">Salsa bolognesa con carne, parmesano.</div><div class="menu-item-price">$175</div></div>
-        <div class="menu-item"><div class="menu-item-name">Burritos</div><div class="menu-item-desc">Arrachera, campechano, pollo o bistec. Con queso Oaxaca, pimiento morrón, cebolla, frijol, tortilla de harina, papas gajo.</div><div class="menu-item-price">desde $145</div></div>
-      </div>
-    </div>
-
-    <!-- Sushi -->
-    <div id="tab-sushi" class="tab-panel">
-      <div class="menu-grid">
-        <div class="menu-item"><div class="menu-item-name">Boom Roll ⭐</div><div class="menu-item-desc">Especialidad de la casa. Camarón empanizado, Philadelphia, aguacate, kakiague de verduras y pepino, salsa Tampico, ajonjolí.</div><div class="menu-item-price">$185</div></div>
-        <div class="menu-item"><div class="menu-item-name">Gyo Roll</div><div class="menu-item-desc">Rollito tempurizado, arrachera, cebollín, queso manchego, aguacate, espárrago tempurizado, chiles toreados, aderezo chipotle.</div><div class="menu-item-price">$250</div></div>
-        <div class="menu-item"><div class="menu-item-name">Cangretuna</div><div class="menu-item-desc">XD: surimi tempurizado, aguacate, pepino. XF: atún por fuera, salsa sriracha y chipotle flameado.</div><div class="menu-item-price">$220</div></div>
-        <div class="menu-item"><div class="menu-item-name">Salmón Roll</div><div class="menu-item-desc">Salmón, mayonesa chipotle, ajonjolí, Tampico, Philadelphia, aguacate, pepino.</div><div class="menu-item-price">$210</div></div>
-        <div class="menu-item"><div class="menu-item-name">Chicken Roll</div><div class="menu-item-desc">XD: aguacate, lechuga, empanizado, cebollín, salsa chipotle. XF: algarol, salsa chipotle y sriracha.</div><div class="menu-item-price">$245</div></div>
-        <div class="menu-item"><div class="menu-item-name">Dragon Roll</div><div class="menu-item-desc">Camarón empanizado, pepino, Philadelphia, aguacate, plátano, salsa bora bora, ajonjolí.</div><div class="menu-item-price">$170</div></div>
-        <div class="menu-item"><div class="menu-item-name">Coco Roll</div><div class="menu-item-desc">XD: salmón, Philadelphia, aguacate. XF: empanizado con panko, coco, hilo de papa frito, salsa de anguila dulce.</div><div class="menu-item-price">$180</div></div>
-        <div class="menu-item"><div class="menu-item-name">Churro Roll</div><div class="menu-item-desc">Rollito empanizado de azúcar canela, nutella, queso Philadelphia, plátano frito.</div><div class="menu-item-price">$190</div></div>
-      </div>
-    </div>
-
-    <!-- Hamburguesas -->
-    <div id="tab-hamburguesas" class="tab-panel">
-      <div class="menu-grid">
-        <div class="menu-item"><div class="menu-item-name">Jefe Gorgory</div><div class="menu-item-desc">Carne 200 gr, donut kryspi, cebolla caramelizada, queso americano, tocino caramelizado, aro de cebolla.</div><div class="menu-item-price">$225</div></div>
-        <div class="menu-item"><div class="menu-item-name">Hamburguesa Canadiense</div><div class="menu-item-desc">Carne de res 200 gr, 2 rebanadas jamón de cerdo, queso americano, tocino con cebolla caramelizada con miel, ensalada y papas gajo.</div><div class="menu-item-price">$235</div></div>
-        <div class="menu-item"><div class="menu-item-name">Hamburguesa Luccia</div><div class="menu-item-desc">Dona Krispy, pepperoni, salsa de tomate, carne 200 gr, queso Oaxaca, manchego, cebolla morada, champiñón, lechuga, jitomate y papas.</div><div class="menu-item-price">$265</div></div>
-        <div class="menu-item"><div class="menu-item-name">Clásica</div><div class="menu-item-desc">Carne de res, lechuga, jitomate, queso americano, aderezos, cebolla, papas gajo.</div><div class="menu-item-price">$145</div></div>
-        <div class="menu-item"><div class="menu-item-name">Arrachera</div><div class="menu-item-desc">Arrachera marinada, queso americano, lechuga, jitomate, cebolla, aderezos, papas gajo.</div><div class="menu-item-price">$170</div></div>
-        <div class="menu-item"><div class="menu-item-name">Bacon</div><div class="menu-item-desc">Carne de res, tocino, salsa BBQ, lechuga, jitomate, cebolla, aderezos, papas gajo.</div><div class="menu-item-price">$180</div></div>
-        <div class="menu-item"><div class="menu-item-name">Hot Dog Jumbo</div><div class="menu-item-desc">Salchicha jumbo, pan, vegetales, aderezos, queso Oaxaca.</div><div class="menu-item-price">$135</div></div>
-        <div class="menu-item"><div class="menu-item-name">Hot Dog Hawaiano</div><div class="menu-item-desc">Pan, salchicha jumbo, queso, piña, jamón, aderezo, papas gajo.</div><div class="menu-item-price">$150</div></div>
-      </div>
-    </div>
-
-    <!-- Pizzas -->
-    <div id="tab-pizzas" class="tab-panel">
-      <div class="menu-grid">
-        <div class="menu-item"><div class="menu-item-name">Pizza Boom Monstruo</div><div class="menu-item-desc">Carne de hamburguesa, papa gajo, boneless, chistorra, queso Oaxaca, salsa de tomate, mozzarella, salsa ranch, BBQ, doble base.</div><div class="menu-item-price">$250</div></div>
-        <div class="menu-item"><div class="menu-item-name">Pizza Carnes</div><div class="menu-item-desc">Arrachera, chorizo, pepperoni, argentino, chistorra, bistec, longaniza.</div><div class="menu-item-price">$190</div></div>
-        <div class="menu-item"><div class="menu-item-name">Pizza 4 Chesse</div><div class="menu-item-desc">Salsa alfredo, queso parmesano, queso crema, mozzarella, queso Oaxaca, perejil seco.</div><div class="menu-item-price">$180</div></div>
-        <div class="menu-item"><div class="menu-item-name">Pizza Pastor</div><div class="menu-item-desc">Adobo pastor, carne al pastor, piña, cebolla, cilantro, aguacate.</div><div class="menu-item-price">$175</div></div>
-        <div class="menu-item"><div class="menu-item-name">Pepperoni</div><div class="menu-item-desc">Masa artesanal, salsa de tomates frescos con hierbas, aceite de oliva, queso mozzarella.</div><div class="menu-item-price">$165</div></div>
-        <div class="menu-item"><div class="menu-item-name">Pizza Napolitana</div><div class="menu-item-desc">Rodajas de papa, tocino, cebolla morada, chimichurri, salchicha italiana, romero.</div><div class="menu-item-price">$165</div></div>
-        <div class="menu-item"><div class="menu-item-name">Vegetariana</div><div class="menu-item-desc">Champiñón portobello, morrón, jitomate cherry, cebolla morada, aceitunas negras, albahaca.</div><div class="menu-item-price">$175</div></div>
-        <div class="menu-item"><div class="menu-item-name">Calzone</div><div class="menu-item-desc">Pepperoni, tocino, queso mozzarella, salchicha italiana, salsa de tomate, queso parmesano.</div><div class="menu-item-price">$135</div></div>
-      </div>
-    </div>
-
-    <!-- Postres -->
-    <div id="tab-postres" class="tab-panel">
-      <div class="menu-grid">
-        <div class="menu-item"><div class="menu-item-name">Helado Tempura</div><div class="menu-item-desc">Pan brioche, helado de vainilla, chocolate, azúcar glass.</div><div class="menu-item-price">$145</div></div>
-        <div class="menu-item"><div class="menu-item-name">Camelia</div><div class="menu-item-desc">Helado de vainilla 2 bolas, brandy, crema de café, cubos de gelatina, crema batida.</div><div class="menu-item-price">$180</div></div>
-        <div class="menu-item"><div class="menu-item-name">Canollis</div><div class="menu-item-desc">3 canollis, crema batida sabor fresa o pistache con chispas de chocolate y nuez picada.</div><div class="menu-item-price">$130</div></div>
-        <div class="menu-item"><div class="menu-item-name">Crepa con Helado</div><div class="menu-item-desc">Crepa con helado de vainilla, azúcar glass, chocolate líquido. Opción flameada con licor: +$50.</div><div class="menu-item-price">$130</div></div>
-        <div class="menu-item"><div class="menu-item-name">Cheesecake / Pastel 3 Chocolates / Red Velvet</div><div class="menu-item-desc">Rebanada de temporada.</div><div class="menu-item-price">$125</div></div>
-      </div>
-    </div>
-
-    <div class="menu-pdf-links reveal">
-      <span style="font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)">Menú completo en PDF:</span>
-      <a href="https://drive.google.com/file/d/1TT0nXKj_bWP3SiJKTnGuKNB4tBYCxdEa" class="pdf-link" target="_blank"><span class="pdf-icon">↗</span> Menú General</a>
-      <a href="https://drive.google.com/file/d/1HmZWvlQDjlIF3LpjR2n2Ew7YUE6BJgMX" class="pdf-link" target="_blank"><span class="pdf-icon">↗</span> Menú Desayunos</a>
+    <div class="pdf-cards reveal" style="transition-delay:.3s">
+      <a href="https://drive.google.com/file/d/1TT0nXKj_bWP3SiJKTnGuKNB4tBYCxdEa" class="pdf-card" target="_blank" data-num="01">
+        <div class="pdf-card-num">01</div>
+        <div class="pdf-card-label">General</div>
+        <div class="pdf-card-desc">Cortes, sushi, pizzas, hamburguesas, entradas, postres y todo lo demás.</div>
+        <span class="pdf-card-cta">Abrir PDF →</span>
+      </a>
+      <a href="https://drive.google.com/file/d/1HmZWvlQDjlIF3LpjR2n2Ew7YUE6BJgMX" class="pdf-card" target="_blank" data-num="02">
+        <div class="pdf-card-num">02</div>
+        <div class="pdf-card-label">Desayunos</div>
+        <div class="pdf-card-desc">Enchiladas, chilaquiles, omelettes, sandwiches y todas las opciones matutinas.</div>
+        <span class="pdf-card-cta">Abrir PDF →</span>
+      </a>
     </div>
   </section>
 
@@ -957,7 +964,7 @@
         <div class="galeria-slide"><img src="https://drive.google.com/thumbnail?id=1BFKO_rcEg-G28Yg3GnaZHKk_dCK1dwGA&sz=w900" alt="" loading="lazy"/></div>
         <div class="galeria-slide"><img src="https://drive.google.com/thumbnail?id=1BvYQuKjmsEO9GGf6G5xGdosZ9C8EyxJ1&sz=w900" alt="" loading="lazy"/></div>
         <div class="galeria-slide"><img src="https://drive.google.com/thumbnail?id=1CHX7xE8H1w_ZE2d8p4xUWbEAj-DEhNdj&sz=w900" alt="" loading="lazy"/></div>
-        <div class="galeria-slide"><img src="https://drive.google.com/thumbnail?id=1E0sxV52ZmVR5kfQKNMA7td7SHjZ4jU_-&sz=w900" alt="" loading="lazy"/></div>
+        <div class="galeria-slide"><img src="https://drive.google.com/thumbnail?id=1aW6_CKvjS1fADNqq3E1m393P9R4Y8i8S&sz=w900" alt="" loading="lazy"/></div>
         <div class="galeria-slide"><img src="https://drive.google.com/thumbnail?id=1xWTpwGV4y4Ntw4arttIpZ37I1d7YvOal&sz=w900" alt="" loading="lazy"/></div>
         <div class="galeria-slide"><img src="https://drive.google.com/thumbnail?id=1yWcHv7iu8EGMMfupXmnPDlnviOQ7h5UG&sz=w900" alt="" loading="lazy"/></div>
       </div>
@@ -969,23 +976,6 @@
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- BAR -->
-  <section id="bar" class="cocktails">
-    <span class="s-label reveal">— Mixología</span>
-    <h2 class="s-title reveal" style="transition-delay:.1s">Explosión<br>de <em>sabor</em></h2>
-    <div class="cocktails-grid">
-      <div class="cocktail-card reveal"><div class="cocktail-name">Spritz</div><div class="cocktail-desc">Aperol, Prosecco, agua mineral.</div><div class="cocktail-price">$160</div></div>
-      <div class="cocktail-card reveal" style="transition-delay:.05s"><div class="cocktail-name">Carajillo</div><div class="cocktail-desc">Licor 43, café espresso, granos de café, twist de naranja.</div><div class="cocktail-price">$145</div></div>
-      <div class="cocktail-card reveal" style="transition-delay:.1s"><div class="cocktail-name">Clericot</div><div class="cocktail-desc">Vino tinto, granadina, limón verde, agua mineral. Garnish: manzana, fresa, pera.</div><div class="cocktail-price">$135</div></div>
-      <div class="cocktail-card reveal" style="transition-delay:.15s"><div class="cocktail-name">Margarita</div><div class="cocktail-desc">Tequila, Cointreau, limón.</div><div class="cocktail-price">$135</div></div>
-      <div class="cocktail-card reveal" style="transition-delay:.2s"><div class="cocktail-name">Mezcalita</div><div class="cocktail-desc">Mezcal, jugo de limón. Sabores: Jamaica, tamarindo, frutos rojos, limón.</div><div class="cocktail-price">$130</div></div>
-      <div class="cocktail-card reveal" style="transition-delay:.25s"><div class="cocktail-name">Mojito de Coco</div><div class="cocktail-desc">Ron blanco, jugo de limón, hierbabuena, Calahua, agua mineral, coco rayado.</div><div class="cocktail-price">$130</div></div>
-      <div class="cocktail-card reveal" style="transition-delay:.3s"><div class="cocktail-name">Grinch Cocktail</div><div class="cocktail-desc">Licor de melón (Midori), vodka, jugo de limón, refresco de lima limón.</div><div class="cocktail-price">$130</div></div>
-      <div class="cocktail-card reveal" style="transition-delay:.35s"><div class="cocktail-name">Cantarito</div><div class="cocktail-desc">1/2 Lt $110 · 1 Lt $180. La opción clásica para compartir.</div><div class="cocktail-price">desde $110</div></div>
-    </div>
-    <p style="margin-top:28px;font-size:.8rem;color:var(--muted);text-align:center">La mayoría de los cocteles pueden pedirse sin alcohol o ajustando licores.</p>
   </section>
 
   <!-- EVENTOS -->
@@ -1106,8 +1096,8 @@
       if (!slides.length) return;
 
       const total  = slides.length;           // 16
-      const step   = 2;                        // 2 per view
-      const pages  = Math.ceil(total / step);  // 8 pairs
+      const step   = 3;                        // 3 per view
+      const pages  = Math.ceil(total / step);  // pages
       let current  = 0;
 
       // Build dots
@@ -1122,7 +1112,7 @@
         current = (page + pages) % pages;
         // each slide is 50% of container + 2px gap; shift by number of slides
         const slideW = track.parentElement.offsetWidth / 2;
-        track.style.transform = `translateX(calc(-${current * step} * (50% + 2px)))`;
+        track.style.transform = `translateX(calc(-${current * step} * (33.333% + 1.333px)))`;
         dotsEl.querySelectorAll('.slider-dot').forEach((d, i) => d.classList.toggle('active', i === current));
       }
 
